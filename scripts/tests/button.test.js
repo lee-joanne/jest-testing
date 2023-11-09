@@ -12,7 +12,7 @@ const buttonClick = require("../button");
 
 beforeEach(() => {
     let fs = require("fs");
-    let fileContents = fs.readFileSync("index.html", "utf-8");
+    let fileContents = fs.readFileSync("button-index.html", "utf-8");
     document.open();
     document.write(fileContents);
     document.close();
