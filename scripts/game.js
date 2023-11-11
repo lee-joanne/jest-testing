@@ -6,6 +6,7 @@ let game = {
 };
 
 const newGame = () => {
+    console.log("new game")
     game.score = 0;
     game.playerMoves = [];
     game.currentGame = [];
@@ -24,10 +25,18 @@ const showScore = () => {
     document.getElementById("score").innerHTML = game.score
 };
 
+const lightsOn = (circ) => {
+    document.getElementById(circ).classList.add("light");
+    setTimeout(() => {
+        document.getElementById(circ).classList.remove("light");
+    }, 400);
+}
+
 module.exports = {
     // exporting more than one function in this file
     game,
     newGame,
     showScore,
-    addTurn
+    addTurn,
+    lightsOn
 }

@@ -6,6 +6,7 @@ const {
     game,
     newGame,
     addTurn,
+    lightsOn,
 } = require("../game")
 
 beforeEach(() => {
@@ -16,6 +17,9 @@ beforeEach(() => {
     document.close();
     // built in way to load html file, run this before each test
 });
+
+// before all runs before all tests
+// before each runs before each test 
 
 describe("game object contains correct keys", () => {
     test("score key exists", () => {
@@ -57,4 +61,27 @@ describe("newGame works correctly", () => {
     test("should set have score display as zero", () => {
         expect(score.innerHTML).toBe('0');
     });
+});
+
+describe("gameplay works correctly", () => {
+    beforeEach(() => {
+        game.score = 0;
+        game.currentGame = [];
+        game.playerMoves = [];
+        addTurn(); // function called, length is now 1
+    });
+    afterEach(() => {
+        game.score = 0;
+        game.currentGame = [];
+        game.playerMoves = [];
+    })
+    test("addTurn adds a new turn to the game", () => {
+        addTurn(); // call function again to add another round for it to be 2
+        expect(game.currentGame.length).toBe(2);
+    });
+    test("should add correct class to light up the buttons", () => {
+        let button = document.getElementById(game.currentGame[0]);
+        lightsOn(game.currentGame[0]);
+        expect(button.classList).toContain("light")
+    })
 });
