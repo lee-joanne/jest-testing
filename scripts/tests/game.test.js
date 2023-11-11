@@ -65,6 +65,13 @@ describe("newGame works correctly", () => {
     test("should set have score display as zero", () => {
         expect(score.innerHTML).toBe('0');
     });
+    test("data listener sets to true", () => {
+        newGame();
+        const elements = document.getElementsByClassName("circle");
+        for (let element of elements) {
+            expect(element.getAttribute("data-listener")).toBe('true');
+        }
+    })
 });
 
 describe("gameplay works correctly", () => {
