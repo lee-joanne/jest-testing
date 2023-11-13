@@ -101,3 +101,5 @@ describe("gameplay works correctly", () => {
         expect(game.turnNumber).toBe(0);
     })
 });
+
+// video stopped off at Codealong Challenge - Part 1
