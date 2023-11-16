@@ -8,15 +8,20 @@ const {
     addTurn,
     lightsOn,
     showTurns,
+    playerTurn
 } = require("../game")
 
-beforeEach(() => {
+jest.spyOn(window, "alert").mockImplementation(() => {
+    // check for an alert instance, into an empty function
+})
+
+beforeAll(() => {
     let fs = require("fs");
     let fileContents = fs.readFileSync("index.html", "utf-8");
     document.open();
     document.write(fileContents);
     document.close();
-    // built in way to load html file, run this before each test
+    // built in way to load html file, run this before all tests
 });
 
 // before all runs before all tests
@@ -99,7 +104,19 @@ describe("gameplay works correctly", () => {
         game.turnNumber = 42;
         showTurns();
         expect(game.turnNumber).toBe(0);
+    });
+    test("should increment the score if the turn is correct", () => {
+        game.playerMoves.push(game.currentGame[0]);
+        playerTurn();
+        expect(game.score).toBe(1);
+    });
+    test("should call an alert if move is wrong", () => {
+        game.playerMoves.push('wrong');
+        playerTurn();
+        expect(window.alert).toBeCalledWith("Wrong move!");
     })
 });
 
 // video stopped off at Codealong Challenge - Part 1
+// sudo dpkg-reconfigure tzdata 
+// 2, 152
