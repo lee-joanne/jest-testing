@@ -6,24 +6,28 @@ let game = {
     turnNumber: 0,
 };
 
-const newGame = () => {
-    game.score = 0;
-    game.playerMoves = [];
+function newGame() {
     game.currentGame = [];
+    game.playerMoves = [];
+    game.score = 0;
+
     for (let circle of document.getElementsByClassName("circle")) {
-        if (circle.getAttribute("data-listener") !== 'true') {
+        if (circle.getAttribute("data-listener") !== "true") {
             circle.addEventListener("click", (e) => {
-                let move = e.target.getAttribute("id");
-                lightsOn(move);
-                game.playerMoves.push(move);
-                playerTurn();
+                if (game.currentGame.length > 0 && !game.turnInProgress) {
+                    let move = e.target.getAttribute("id");
+                    game.lastButton = move;
+                    game.playerMoves.push(move);
+                    lightsOn(move);
+                    playerTurn();
+                }
             });
-            circle.setAttribute("data-listener", 'true');
+            circle.setAttribute("data-listener", "true");
         }
     }
     showScore();
     addTurn();
-};
+}
 
 const playerTurn = () => {
     let i = game.playerMoves.length - 1;
@@ -58,12 +62,14 @@ const lightsOn = (circ) => {
 }
 
 const showTurns = () => {
+    game.turnInProgress = true;
     game.turnNumber = 0;
     let turns = setInterval(() => {
         lightsOn(game.currentGame[game.turnNumber]) // for the first turn, the currentGame index is at 0, so we're getting the first value, as the first turn
         game.turnNumber++; //increase the turn number
         if (game.turnNumber >= game.currentGame.length) {
             clearInterval(turns);
+            game.turnInProgress = false;
         }
     }, 800)
 }

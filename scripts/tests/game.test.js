@@ -76,6 +76,10 @@ describe("newGame works correctly", () => {
         for (let element of elements) {
             expect(element.getAttribute("data-listener")).toBe('true');
         }
+    });
+    test("should toggle turnInProgress to true", () => {
+        showTurns();
+        expect(game.turnInProgress).toBe(true);
     })
 });
 
@@ -114,6 +118,12 @@ describe("gameplay works correctly", () => {
         game.playerMoves.push('wrong');
         playerTurn();
         expect(window.alert).toBeCalledWith("Wrong move!");
+    });
+    test("clicking during computer game sequence should fail", () => {
+        showTurns();
+        game.lastButton = "";
+        document.getElementById("button2").click();
+        expect(game.lastButton).toEqual("")
     })
 });
 
