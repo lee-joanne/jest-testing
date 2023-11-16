@@ -4,25 +4,25 @@ let game = {
     playerMoves: [],
     choices: ['button1', 'button2', 'button3', 'button4'],
     turnNumber: 0,
-};
+}; // initialize the game object
 
 function newGame() {
-    game.currentGame = [];
-    game.playerMoves = [];
-    game.score = 0;
+    game.currentGame = []; // empty current game
+    game.playerMoves = []; // empty player moves
+    game.score = 0; // score
 
-    for (let circle of document.getElementsByClassName("circle")) {
+    for (let circle of document.getElementsByClassName("circle")) { // sets up event listeners for users to click when addTurn called
         if (circle.getAttribute("data-listener") !== "true") {
             circle.addEventListener("click", (e) => {
-                if (game.currentGame.length > 0 && !game.turnInProgress) {
+                if (game.currentGame.length > 0 && !game.turnInProgress) { // makes sure users does not click buttons until game length bigger than 1 and turn not in progress
                     let move = e.target.getAttribute("id");
                     game.lastButton = move;
                     game.playerMoves.push(move);
-                    lightsOn(move);
-                    playerTurn();
+                    lightsOn(move); // turn on the lights with each player's move
+                    playerTurn(); // check to see if player move is correct
                 }
             });
-            circle.setAttribute("data-listener", "true");
+            circle.setAttribute("data-listener", "true"); // set data listeners to true
         }
     }
     showScore();
@@ -44,10 +44,10 @@ const playerTurn = () => {
 };
 
 const addTurn = () => {
-    game.playerMoves = [];
-    let randomChoice = game.choices[Math.floor(Math.random() * game.choices.length)]
-    game.currentGame.push(randomChoice);
-    showTurns();
+    game.playerMoves = []; // empty player moves
+    let randomChoice = game.choices[Math.floor(Math.random() * game.choices.length)] // randomize choices
+    game.currentGame.push(randomChoice); // add choices to the current game
+    showTurns(); // show turns
 };
 
 const showScore = () => {
@@ -62,14 +62,14 @@ const lightsOn = (circ) => {
 }
 
 const showTurns = () => {
-    game.turnInProgress = true;
+    game.turnInProgress = true; // computer is going, turn in progress true
     game.turnNumber = 0;
     let turns = setInterval(() => {
         lightsOn(game.currentGame[game.turnNumber]) // for the first turn, the currentGame index is at 0, so we're getting the first value, as the first turn
         game.turnNumber++; //increase the turn number
-        if (game.turnNumber >= game.currentGame.length) {
+        if (game.turnNumber >= game.currentGame.length) { // when turns are completed
             clearInterval(turns);
-            game.turnInProgress = false;
+            game.turnInProgress = false; // let player make their turns
         }
     }, 800)
 }
